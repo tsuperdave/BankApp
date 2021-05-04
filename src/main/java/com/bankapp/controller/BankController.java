@@ -22,14 +22,13 @@ public class BankController {
     @Autowired
     private BankService bankService;
 
-    @RequestMapping("/")
-    @ResponseBody
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String start() {
         return "Welcome to the jungle";
     }
 
     @PostMapping(value = "/AccountHolders")
-    public AccountHolder addAccountHolder(@RequestBody AccountHolder accountHolder) throws AccountNotFoundException {
+    public AccountHolder addAccountHolder(@RequestBody AccountHolder accountHolder) throws AccountNotFoundException, com.bankapp.exceptions.AccountNotFoundException {
         return bankService.addAccountHolder(accountHolder);
     }
 
