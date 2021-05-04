@@ -1,4 +1,4 @@
-package com.bankapp.models;
+package com.bankapp.BankApp.models;
 
 import lombok.Data;
 
@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.util.*;
 
 @Data
-@Entity(name="BankAccount")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@Entity(name="BankAccount")
+@MappedSuperclass
 public abstract class BankAccount {
 	
 		@Id

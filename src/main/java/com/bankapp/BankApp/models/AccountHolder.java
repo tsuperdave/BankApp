@@ -1,4 +1,4 @@
-package com.bankapp.models;
+package com.bankapp.BankApp.models;
 
 import lombok.Data;
 
@@ -24,7 +24,7 @@ public class AccountHolder {
     String ssn;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_holder_contact_details_id", referencedColumnName = "account_holders_contact_details_id")
+    @JoinColumn(name = "account_holder_contact_details_id")
     AccountHolderContactDetails accountHolderContactDetails;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CheckingAccount> checkingAccountList;

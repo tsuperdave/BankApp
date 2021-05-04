@@ -1,4 +1,4 @@
-package com.bankapp.models;
+package com.bankapp.BankApp.models;
 
 import lombok.Data;
 

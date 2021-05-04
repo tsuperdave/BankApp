@@ -1,7 +1,7 @@
-package com.bankapp.controller;
+package com.bankapp.BankApp.controller;
 
-import com.bankapp.models.AccountHolder;
-import com.bankapp.services.BankService;
+import com.bankapp.BankApp.models.AccountHolder;
+import com.bankapp.BankApp.services.BankService;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +22,13 @@ public class BankController {
     @Autowired
     private BankService bankService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping(value = "")
     public String start() {
         return "Welcome to the jungle";
     }
 
     @PostMapping(value = "/AccountHolders")
-    public AccountHolder addAccountHolder(@RequestBody AccountHolder accountHolder) throws AccountNotFoundException, com.bankapp.exceptions.AccountNotFoundException {
+    public AccountHolder addAccountHolder(@RequestBody AccountHolder accountHolder) throws AccountNotFoundException, com.bankapp.BankApp.exceptions.AccountNotFoundException {
         return bankService.addAccountHolder(accountHolder);
     }
 

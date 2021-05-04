@@ -1,8 +1,8 @@
-package com.bankapp.services;
+package com.bankapp.BankApp.services;
 
-import com.bankapp.exceptions.AccountNotFoundException;
-import com.bankapp.models.AccountHolder;
-import com.bankapp.repository.AccountHolderRepository;
+import com.bankapp.BankApp.exceptions.AccountNotFoundException;
+import com.bankapp.BankApp.models.AccountHolder;
+import com.bankapp.BankApp.repository.AccountHolderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
