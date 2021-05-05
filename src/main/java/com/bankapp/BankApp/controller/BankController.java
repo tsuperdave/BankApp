@@ -28,10 +28,20 @@ public class BankController {
         return "Welcome to the jungle";
     }
 
+    @GetMapping(value = "USER")
+    public String user() {
+        return ("<h1>Welcome User</h1>");
+    }
+
+    @GetMapping(value = "ADMIN")
+    public String admin() {
+        return ("<h1>Welcome Admin</h1>");
+    }
+
     /**
      *
      * @param accountHolder post account holder info
-     * @return
+     * @return account holder
      */
     @PostMapping(value = "/AccountHolders")
     @ResponseStatus(HttpStatus.CREATED)
