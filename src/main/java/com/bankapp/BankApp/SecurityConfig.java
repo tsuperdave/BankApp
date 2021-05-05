@@ -1,5 +1,7 @@
 package com.bankapp.BankApp;
 
+import com.bankapp.BankApp.services.MyUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,12 +17,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    MyUserDetailsService mysUserDetailsService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(mysUserDetailsService);
+        /*
         auth.inMemoryAuthentication()
                 .withUser("test")
                 .password("test")
                 .roles("USER");
+         */
     }
 
     @Override

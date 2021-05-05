@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class CDAccount extends BankAccount{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne

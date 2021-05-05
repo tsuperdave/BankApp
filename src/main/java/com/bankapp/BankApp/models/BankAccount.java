@@ -11,7 +11,7 @@ import java.util.*;
 public abstract class BankAccount {
 	
 		@Id
-		@GeneratedValue(strategy=GenerationType.AUTO)
+		@GeneratedValue(strategy=GenerationType.IDENTITY)
 		private Integer id;
 
 		@ManyToOne

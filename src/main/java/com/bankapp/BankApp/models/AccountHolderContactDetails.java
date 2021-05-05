@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class AccountHolderContactDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_holder_contact_details_id")
     Integer id;
 
