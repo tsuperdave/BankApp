@@ -2,15 +2,10 @@ package com.bankapp.BankApp.services;
 
 import com.bankapp.BankApp.exceptions.AccountNotFoundException;
 import com.bankapp.BankApp.exceptions.ExceedsCombinedBalanceLimitException;
-import com.bankapp.BankApp.models.AccountHolder;
-import com.bankapp.BankApp.models.CheckingAccount;
-import com.bankapp.BankApp.models.SavingsAccount;
-import com.bankapp.BankApp.repository.AccountHolderRepository;
-import com.bankapp.BankApp.repository.CheckingAccountRepository;
-import com.bankapp.BankApp.repository.SavingsAccountRepository;
+import com.bankapp.BankApp.models.*;
+import com.bankapp.BankApp.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +20,10 @@ public class BankService {
     private CheckingAccountRepository checkingAccountRepository;
     @Autowired
     private SavingsAccountRepository savingsAccountRepository;
+    @Autowired
+    private CDAccountRepository cdAccountRepository;
+    @Autowired
+    private CDOfferingRepository cdOfferingRepository;
 
     public AccountHolder addAccountHolder(AccountHolder accountHolder) {
         return accountHolderRepository.save(accountHolder);
@@ -67,5 +66,28 @@ public class BankService {
 
     public List<SavingsAccount> getSavingsAccountById(Integer id) throws AccountNotFoundException {
         return getAccountHolderById(id).getSavingsAccountsList();
+    }
+
+    public CDAccount addCDAccount(CDAccount cdAccount, Integer id) throws AccountNotFoundException, ExceedsCombinedBalanceLimitException {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        if(accountHolder.getCombinedAccountBalance() + cdAccount.getBalance() > BANK_ACCOUNT_BALANCE_LIMIT) {
+            throw new ExceedsCombinedBalanceLimitException("Total balance exceeds threshold. Cannot create a CD Account at this time");
+        }
+        accountHolder.setCdAccountList(Arrays.asList(cdAccount));
+        cdAccount.setAccountHolder(accountHolder);
+        cdAccountRepository.save(cdAccount);
+        return cdAccount;
+    }
+
+    public List<CDAccount> getCDAccountById(Integer id) throws AccountNotFoundException {
+        return getAccountHolderById(id).getCdAccountList();
+    }
+
+    public CDOffering addCDOffering(CDOffering cdOffering) {
+        return cdOfferingRepository.save(cdOffering);
+    }
+
+    public List<CDOffering> getCDOfferings() {
+        return cdOfferingRepository.findAll();
     }
 }
