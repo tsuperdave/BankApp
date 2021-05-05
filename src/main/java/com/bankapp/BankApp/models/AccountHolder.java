@@ -33,4 +33,62 @@ public class AccountHolder {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CDAccount> cdAccountList;
 
+    public double getNumberOfCheckingAccounts() {
+        if(checkingAccountList != null) {
+            return checkingAccountList.size();
+        }
+        return 0;
+    }
+
+    public double getNumberOfSavingsAccounts() {
+        if(checkingAccountList != null) {
+            return savingsAccountsList.size();
+        }
+        return 0;
+    }
+
+    public double getNumberOfCDAccounts() {
+        if(checkingAccountList != null) {
+            return cdAccountList.size();
+        }
+        return 0;
+    }
+
+    public double getCheckingBalance() {
+        double total = 0;
+        if(checkingAccountList != null) {
+            for(CheckingAccount ca: checkingAccountList) {
+                total += ca.getBalance();
+            }
+            return total;
+        }
+        return 0;
+    }
+
+    public double getSavingsBalance() {
+        double total = 0;
+        if(checkingAccountList != null) {
+            for(SavingsAccount sa: savingsAccountsList) {
+                total += sa.getBalance();
+            }
+            return total;
+        }
+        return 0;
+    }
+
+    public double getCDBalance() {
+        double total = 0;
+        if(cdAccountList != null) {
+            for(CDAccount cda: cdAccountList) {
+                total += cda.getBalance();
+            }
+            return total;
+        }
+        return 0;
+    }
+
+    public double getCombinedAccountBalance() {
+        return getCheckingBalance() + getSavingsBalance() + getCDBalance();
+    }
+
 }
