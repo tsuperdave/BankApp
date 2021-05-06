@@ -4,6 +4,7 @@ import com.bankapp.BankApp.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,13 +32,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          */
     }
 
+    /**
+     * Disables cross-site request forgery
+     * authorizes requests for /auth
+     * all others need to be auth
+     * @param http request
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        /*
         http.authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/").permitAll()
                 .and().formLogin();
+        */
+        http.csrf().disable()
+                .authorizeRequests().antMatchers("/authenticate").permitAll()
+                .anyRequest().authenticated();
+
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        // TODO Auto-generated method stub
+        return super.authenticationManagerBean();
     }
 
     @Bean
