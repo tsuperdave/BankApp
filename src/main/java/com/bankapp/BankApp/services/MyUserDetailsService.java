@@ -1,7 +1,8 @@
 package com.bankapp.BankApp.services;
 
 import com.bankapp.BankApp.models.MyUserDetails;
-import com.bankapp.BankApp.repository.MyUserDetailsRepository;
+import com.bankapp.BankApp.models.User;
+import com.bankapp.BankApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,11 +15,17 @@ import java.util.Optional;
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    MyUserDetailsRepository myUserDetailsRepository;
+    UserRepository userRepository;
 
+    /**
+     *
+     * @param userName is for locating user in repository
+     * @return instance of user Obj
+     * @throws UsernameNotFoundException if user is not found
+     */
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<MyUserDetails> user = myUserDetailsRepository.findByUserName(userName);
+        Optional<User> user = userRepository.findByUserName(userName);
 
         user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + userName));
 

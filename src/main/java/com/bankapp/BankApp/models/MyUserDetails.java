@@ -1,40 +1,40 @@
 package com.bankapp.BankApp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Arrays;
+import java.util.*;
 import java.util.Collection;
-import java.util.List;
+import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Integer id;
 
     private String userName;
     private String password;
     private boolean active;
-    private Collection<? extends GrantedAuthority> authorities;
+    private List<? extends GrantedAuthority> authorities;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_holder_id")
     @JsonIgnore
     AccountHolder accountHolder;
 
+    /**
+     * Gets values instance from live data
+     * @param user to store username/pass and activate account
+     */
     public MyUserDetails(User user) {
-        this.userName = user.getUsername();
+        this.userName = user.getUserName();
         this.password = user.getPassword();
-        this.active = user.isEnabled();
-        this.authorities = user.getRoles()// TODO wtf
+        this.active = user.isActive();
+        this.authorities = Arrays.stream(user.getRoles()
+                .split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -43,13 +43,13 @@ public class MyUserDetails implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return userName;
+    public String getPassword() {
+        return password;
     }
 
     @Override
-    public String getPassword() {
-        return password;
+    public String getUsername() {
+        return userName;
     }
 
     @Override
@@ -67,4 +67,8 @@ public class MyUserDetails implements UserDetails {
         return true;
     }
 
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
