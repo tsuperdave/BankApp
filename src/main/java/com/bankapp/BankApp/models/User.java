@@ -31,9 +31,4 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private AccountHolder accountHolder;
 
-    public User(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
-    }
-
 }

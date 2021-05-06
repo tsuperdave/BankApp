@@ -1,6 +1,7 @@
 package com.bankapp.BankApp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +12,7 @@ import java.util.*;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 public class MyUserDetails implements UserDetails {
 
     private String userName;
@@ -31,10 +33,10 @@ public class MyUserDetails implements UserDetails {
         this.userName = user.getUserName();
         this.password = user.getPassword();
         this.active = user.isActive();
-        this.authorities = Arrays.stream(user.getRoles()
-                .split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        this.authorities = Arrays.stream(user.getRoles().split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
     }
 
     @Override
