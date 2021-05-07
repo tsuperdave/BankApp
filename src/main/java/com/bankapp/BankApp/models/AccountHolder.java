@@ -15,9 +15,6 @@ public class AccountHolder {
     @Column(name = "account_holder_id")
     Integer id;
 
-    // TODO add User
-    //private User user;
-
     String firstName;
     String middleName;
     String lastName;
@@ -32,7 +29,8 @@ public class AccountHolder {
     private List<SavingsAccount> savingsAccountsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CDAccount> cdAccountList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "accountHolder")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public double getNumberOfCheckingAccounts() {

@@ -1,6 +1,5 @@
 package com.bankapp.BankApp.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -26,8 +25,8 @@ public class User {
     private boolean active;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    @JoinColumn(name = "account_holder_id")
-    @JsonIgnore
+//    @JoinColumn(name = "account_holder_id")
+//    @JsonIgnore
     AccountHolder accountHolder;
 
     public User(String username) {
