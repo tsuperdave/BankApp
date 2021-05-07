@@ -23,11 +23,6 @@ import java.util.*;
 @RestController
 public class BankController {
 
-    // TODO add post/get for
-    //service
-    // auth manager
-    // userDetail service
-    // jwt util
     @Autowired
     private BankService bankService;
     @Autowired
