@@ -38,15 +38,15 @@ public class BankController {
         return "Welcome to the jungle";
     }
 
-//    @GetMapping(value = "/user")
-//    public String user() {
-//        return ("<h1>Welcome User</h1>");
-//    }
-//
-//    @GetMapping(value = "/admin")
-//    public String admin() {
-//        return ("<h1>Welcome Admin</h1>");
-//    }
+    @GetMapping(value = "/user")
+    public String user() {
+        return ("<h1>Welcome User</h1>");
+    }
+
+    @GetMapping(value = "/admin")
+    public String admin() {
+        return ("<h1>Welcome Admin</h1>");
+    }
 
     /**
      *
