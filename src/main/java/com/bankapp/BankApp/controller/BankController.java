@@ -58,7 +58,8 @@ public class BankController {
      * @return jwt
      * @throws Exception is throw if user/pass is not correct
      */
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @PostMapping(value = "/authenticate")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> createAutheticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -66,8 +67,8 @@ public class BankController {
         } catch(BadCredentialsException bce) {
             throw new Exception("Incorrect username or password", bce);
         }
-        final UserDetails user = myUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String jwt = jwtTokenUtil.generateToken(user);
+        final User userDetails = (User) myUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        final String jwt = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 

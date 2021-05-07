@@ -1,6 +1,5 @@
 package com.bankapp.BankApp.util;
 
-import com.bankapp.BankApp.models.MyUserDetails;
 import com.bankapp.BankApp.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -15,7 +14,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    private String SECRET_KEY = "secret";
+    private final String SECRET_KEY = "secret";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -49,8 +48,8 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public Boolean validateToken(String token, MyUserDetails myUserDetails) {
+    public Boolean validateToken(String token, User user) {
         final String username = extractUsername(token);
-        return (username.equals(myUserDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(user.getUsername()) && !isTokenExpired(token));
     }
 }

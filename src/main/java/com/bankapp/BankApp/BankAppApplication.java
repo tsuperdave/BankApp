@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 //@Slf4j
 @SpringBootApplication
-//@EnableJpaRepositories(basePackageClasses = UserRepository.class)
+//@EnableJpaRepositories
 public class BankAppApplication {
 
 	public static void main(String[] args) {

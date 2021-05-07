@@ -1,11 +1,12 @@
 package com.bankapp.BankApp.filters;
 
 import com.bankapp.BankApp.models.User;
+import com.bankapp.BankApp.services.MyUserDetailsService;
 import com.bankapp.BankApp.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -20,7 +21,7 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private MyUserDetailsService myUserDetailsService;
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -36,11 +37,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            User user = userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
 
-            if (jwtUtil.validateToken(jwt, user)) {
+            if (jwtUtil.validateToken(jwt, (User) userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        myUserDetails, null, user.getAuthorities());
+                        userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
@@ -48,5 +49,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
-    }
+
 }
