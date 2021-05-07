@@ -3,6 +3,7 @@ package com.bankapp.BankApp.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.*;
 
 @Data
@@ -15,21 +16,24 @@ public class AccountHolder {
     @Column(name = "account_holder_id")
     Integer id;
 
+    @NotEmpty
     String firstName;
     String middleName;
+    @NotEmpty
     String lastName;
+    @NotEmpty
     String ssn;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_holder_contact_details_id")
-    AccountHolderContactDetails accountHolderContactDetails;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CheckingAccount> checkingAccountList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<SavingsAccount> savingsAccountsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CDAccount> cdAccountList;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "account_holder_contact_details_id")
+    AccountHolderContactDetails accountHolderContactDetails;
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
