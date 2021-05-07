@@ -11,7 +11,7 @@ import java.util.*;
 public class CDOffering {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "offering_id")
     private Integer id;
 
