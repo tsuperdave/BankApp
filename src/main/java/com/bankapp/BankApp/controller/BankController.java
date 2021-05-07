@@ -25,12 +25,12 @@ public class BankController {
 
     @Autowired
     private BankService bankService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
     @Autowired
     private MyUserDetailsService myUserDetailsService;
-    @Autowired
-    private JwtUtil jwtTokenUtil;
+//    @Autowired
+//    private JwtUtil jwtTokenUtil;
 
     // START
     @GetMapping(value = "")
@@ -48,25 +48,25 @@ public class BankController {
         return ("<h1>Welcome Admin</h1>");
     }
 
-    /**
-     *
-     * @param authenticationRequest instance will get user/pass
-     * @return jwt
-     * @throws Exception is throw if user/pass is not correct
-     */
-    @PostMapping(value = "/authenticate")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> createAutheticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-        } catch(BadCredentialsException bce) {
-            throw new Exception("Incorrect username or password", bce);
-        }
-        final User userDetails = (User) myUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String jwt = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
-    }
+//    /**
+//     *
+//     * @param authenticationRequest instance will get user/pass
+//     * @return jwt
+//     * @throws Exception is throw if user/pass is not correct
+//     */
+//    @PostMapping(value = "/authenticate")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<?> createAutheticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+//        try {
+//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+//                    authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+//        } catch(BadCredentialsException bce) {
+//            throw new Exception("Incorrect username or password", bce);
+//        }
+//        final User userDetails = (User) myUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+//        final String jwt = jwtTokenUtil.generateToken(userDetails);
+//        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+//    }
 
     /**
      *
