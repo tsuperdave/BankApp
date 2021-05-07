@@ -11,7 +11,7 @@ import java.util.*;
 public class AccountHolder {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_holder_id")
     Integer id;
 
@@ -32,6 +32,8 @@ public class AccountHolder {
     private List<SavingsAccount> savingsAccountsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CDAccount> cdAccountList;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "accountHolder")
+    private User user;
 
     public double getNumberOfCheckingAccounts() {
         if(checkingAccountList != null) {
