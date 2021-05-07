@@ -1,14 +1,12 @@
 package com.bankapp.BankApp.models;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 
 @Data
-@Entity
-@NoArgsConstructor
+@Entity(name = "User")
 public class User {
 
     @Id
@@ -21,16 +19,12 @@ public class User {
     @NotEmpty
     private String password;
     @NotEmpty
-    private String role;
+    private String roles;
     private boolean active;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
 //    @JoinColumn(name = "account_holder_id")
 //    @JsonIgnore
     AccountHolder accountHolder;
-
-    public User(String username) {
-        this.username = username;
-    }
 
 }

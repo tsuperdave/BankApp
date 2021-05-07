@@ -4,8 +4,8 @@ import com.bankapp.BankApp.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
-    public User findByUsername(String userName);
+import java.util.Optional;
 
-    public boolean existsByUsername(String username);
+public interface UserRepository extends JpaRepository<User, Integer> {
+    Optional<User> findByUsername(String username);
 }

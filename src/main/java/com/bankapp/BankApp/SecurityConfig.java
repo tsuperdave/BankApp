@@ -26,19 +26,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public MyUserDetailsService mysUserDetailsService;
-    @Autowired
-    JwtRequestFilter jwtRequestFilter;
+//    @Autowired
+//    JwtRequestFilter jwtRequestFilter;
 
-    @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(mysUserDetailsService);
-
-        /*
-        auth.inMemoryAuthentication()
-                .withUser("test")
-                .password("test")
-                .roles("USER");
-         */
     }
 
     /**
@@ -50,30 +43,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        /*
+
         http.authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/").permitAll()
                 .and().formLogin();
-        */
-        http.csrf().disable();
-        http.authorizeRequests()
-                .antMatchers("/authenticate").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .anyRequest().authenticated().and()
-                .exceptionHandling().and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.headers().frameOptions().disable();
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
-    }
+//        http.csrf().disable();
+//        http.authorizeRequests()
+//                .antMatchers("/authenticate").permitAll()
+//                .antMatchers("/h2-console/**").permitAll()
+//                .anyRequest().authenticated().and()
+//                .exceptionHandling().and().sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        http.headers().frameOptions().disable();
+//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        // TODO Auto-generated method stub
-        return super.authenticationManagerBean();
     }
 
     @Bean
@@ -81,10 +67,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return NoOpPasswordEncoder.getInstance();
     }
 
-    //TODO trying to add user details service to rid error
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new MyUserDetailsService();
-
-    }
+//    //TODO trying to add user details service to rid error
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return new MyUserDetailsService();
+//
+//    }
+//
+//    @Override
+//    @Bean
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        // TODO Auto-generated method stub
+//        return super.authenticationManagerBean();
+//    }
 }

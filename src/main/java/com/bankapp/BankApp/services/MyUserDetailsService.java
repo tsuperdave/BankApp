@@ -17,7 +17,7 @@ import java.util.Optional;
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
     /**
      *
@@ -27,29 +27,11 @@ public class MyUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        User user = userRepository.findByUsername(username);
-//        if(user == null) {
-//            throw new UsernameNotFoundException("User " + username + " not found.");
-//        }
-//        return new MyUserDetails(user);
-        Optional<User> user = Optional.ofNullable(userRepository.findByUsername(username));
+        Optional<User> user = userRepository.findByUsername(username);
 
-        user.orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
+        user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + username));
 
         return user.map(MyUserDetails::new).get();
     }
 
-//    public void addUser(User user) {
-//        userRepository.save(user);
-//    }
-//
-//    public boolean isAdmin(User user) {
-//        String role = user.getRole();
-//        return role.equalsIgnoreCase("admin");
-//    }
-//
-//    public boolean isUser(User user) {
-//        String role = user.getRole();
-//        return role.equalsIgnoreCase("user");
-//    }
 }
