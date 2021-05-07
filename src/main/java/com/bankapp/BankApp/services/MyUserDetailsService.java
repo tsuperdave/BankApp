@@ -1,9 +1,10 @@
 package com.bankapp.BankApp.services;
 
-import com.bankapp.BankApp.models.MyUserDetails;
+
 import com.bankapp.BankApp.models.User;
 import com.bankapp.BankApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

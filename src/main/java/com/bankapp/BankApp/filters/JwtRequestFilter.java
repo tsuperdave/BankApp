@@ -1,8 +1,7 @@
 package com.bankapp.BankApp.filters;
 
-import com.bankapp.BankApp.models.MyUserDetails;
+import com.bankapp.BankApp.models.User;
 import com.bankapp.BankApp.util.JwtUtil;
-import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,11 +36,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            MyUserDetails myUserDetails = userDetailsService.loadUserByUsername(username);
+            User user = userDetailsService.loadUserByUsername(username);
 
-            if (jwtUtil.validateToken(jwt, myUserDetails)) {
+            if (jwtUtil.validateToken(jwt, user)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        myUserDetails, null, myUserDetails.getAuthorities());
+                        myUserDetails, null, user.getAuthorities());
                 usernamePasswordAuthenticationToken
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
