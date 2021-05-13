@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,13 +40,23 @@ public class BankController {
     }
 
     @GetMapping(value = "/user")
+//    @Secured("ROLE_USER")
     public String user() {
         return ("<h1>Welcome User</h1>");
     }
 
     @GetMapping(value = "/admin")
+//    @Secured("ROLE_ADMIN")
     public String admin() {
         return ("<h1>Welcome Admin</h1>");
+    }
+
+    @PostMapping(value = "/authenticate/createUser")
+    @ResponseStatus(HttpStatus.CREATED)
+    @Secured("ROLE_ADMIN")
+    public User createNewUser(@RequestBody User user) {
+        myUserDetailsService.addUser(user);
+        return user;
     }
 
     /**

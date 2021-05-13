@@ -1,7 +1,10 @@
 package com.bankapp.BankApp.models;
 
 import lombok.Data;
+import lombok.ToString;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 
@@ -14,13 +17,13 @@ public class User {
     @Column(name = "user_id")
     private Integer id;
 
-    @NotEmpty
+    @Min(value = 1)
     private String username;
-    @NotEmpty
+    @Min(value = 3)
     private String password;
-    @NotEmpty
-    private String roles;
     private boolean active;
+    private String role;
+
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
 //    @JoinColumn(name = "account_holder_id")
