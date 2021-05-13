@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+// added enabling JPA repo
+
 //@Slf4j
 @SpringBootApplication
 @EnableJpaRepositories(basePackageClasses = UserRepository.class)
