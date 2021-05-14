@@ -39,13 +39,13 @@ public class MyUserDetailsService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public boolean isUser(User user) {
-        String role = user.getRole();
-        return role.equalsIgnoreCase("admin");
-    }
-
-    public boolean isAdmin(User user) {
-        String role = user.getRole();
-        return role.equalsIgnoreCase("user");
-    }
+//    public boolean isUser(User user) {
+//        String roles = user.getRoles();
+//        return roles.equalsIgnoreCase("AccountHolder");
+//    }
+//
+//    public boolean isAdmin(User user) {
+//        String roles = user.getRoles();
+//        return roles.equalsIgnoreCase("admin");
+//    }
 }

@@ -51,14 +51,6 @@ public class BankController {
         return ("<h1>Welcome Admin</h1>");
     }
 
-    @PostMapping(value = "/authenticate/createUser")
-    @ResponseStatus(HttpStatus.CREATED)
-    @Secured("ROLE_ADMIN")
-    public User createNewUser(@RequestBody User user) {
-        myUserDetailsService.addUser(user);
-        return user;
-    }
-
     /**
      *
      * @param authenticationRequest instance will get user/pass
@@ -77,6 +69,14 @@ public class BankController {
         final UserDetails userDetails = myUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String jwt = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    }
+
+    @PostMapping(value = "/authenticate/createUser")
+    @ResponseStatus(HttpStatus.CREATED)
+    @Secured("admin")
+    public User createNewUser(@RequestBody User user) {
+        myUserDetailsService.addUser(user);
+        return user;
     }
 
     /**
