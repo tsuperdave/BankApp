@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +14,14 @@ import java.util.Set;
 
 @Data
 @Entity(name = "User")
+@Table(name = "User", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "username"
+        }),
+        @UniqueConstraint(columnNames = {
+                "email"
+        })
+})
 @NoArgsConstructor
 public class User {
 
@@ -21,11 +30,15 @@ public class User {
     @Column(name = "user_id")
     private Integer id;
 
+    @NotBlank
     @Min(value = 1)
     private String username;
+    @NotBlank
     @Min(value = 3)
     private String password;
+
     private boolean active;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
