@@ -7,22 +7,22 @@ import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 
 @Data
-@Entity(name = "roles")
-@Table(name = "roles")
 @NoArgsConstructor
+@Entity(name = "Roles")
+@Table(name = "Roles")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Enumerated(EnumType.STRING)
     @NaturalId
-    @Column(length = 60)
-    private RoleName roleName;
+    @Column(length = 20)
+    private RoleName name;
 
-    public Role(RoleName roleName) {
-        this.roleName =roleName;
+    public Role(RoleName name) {
+        this.name = name;
     }
 
 }

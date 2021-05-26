@@ -35,17 +35,4 @@ public class MyUserDetailsService implements UserDetailsService {
         return user.map(MyUserDetails::new).get();
     }
 
-    public void addUser(User user) {
-        userRepository.save(user);
-    }
-
-//    public boolean isUser(User user) {
-//        String roles = user.getRoles();
-//        return roles.equalsIgnoreCase("AccountHolder");
-//    }
-//
-//    public boolean isAdmin(User user) {
-//        String roles = user.getRoles();
-//        return roles.equalsIgnoreCase("admin");
-//    }
 }

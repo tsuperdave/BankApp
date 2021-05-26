@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,21 +35,27 @@ public class BankController {
     private JwtUtil jwtTokenUtil;
 
     // START
-    @GetMapping(value = "/")
-    public String start() {
-        return "Welcome to the jungle";
-    }
+//    @GetMapping(value = "/")
+//    public String start() {
+//        return "Welcome to the jungle";
+//    }
 
+    @PreAuthorize("hasAuthority('AccountHolder')")
     @GetMapping(value = "/user")
-//    @Secured("ROLE_USER")
     public String user() {
-        return ("<h1>Welcome User</h1>");
+        return ("Welcome Account Holder");
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping(value = "/admin")
-//    @Secured("ROLE_ADMIN")
     public String admin() {
-        return ("<h1>Welcome Admin</h1>");
+        return ("Welcome Admin");
+    }
+
+    @PreAuthorize("hasAuthority('admin')")
+    @GetMapping(value="/adminTest")
+    public String adminTest() {
+        return ("Secured Admin Test Working");
     }
 
     /**
@@ -58,7 +65,7 @@ public class BankController {
      * @throws Exception is throw if user/pass is not correct
      */
     @PostMapping(value = "/authenticate")
-//    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -71,12 +78,10 @@ public class BankController {
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
-    @PostMapping(value = "/authenticate/createUser")
-    @ResponseStatus(HttpStatus.CREATED)
-    @Secured("admin")
-    public User createNewUser(@RequestBody User user) {
-        myUserDetailsService.addUser(user);
-        return user;
+    @PreAuthorize("hasAuthority('admin')")
+    @PostMapping(value = "/admin/createUser")
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
+        return bankService.registerUser(registerRequest);
     }
 
     /**
@@ -84,6 +89,7 @@ public class BankController {
      * @param accountHolder post account holder info
      * @return account holder
      */
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping(value = "/AccountHolders")
     @ResponseStatus(HttpStatus.CREATED)
     public AccountHolder addAccountHolder(@RequestBody AccountHolder accountHolder) {

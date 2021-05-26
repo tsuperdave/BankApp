@@ -2,27 +2,16 @@ package com.bankapp.BankApp.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Data
-@Entity(name = "User")
-@Table(name = "User", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-                "username"
-        }),
-        @UniqueConstraint(columnNames = {
-                "email"
-        })
-})
 @NoArgsConstructor
+@Entity(name = "User")
 public class User {
 
     @Id
@@ -30,25 +19,27 @@ public class User {
     @Column(name = "user_id")
     private Integer id;
 
-    @NotBlank
-    @Min(value = 1)
+    @NotEmpty
     private String username;
-    @NotBlank
-    @Min(value = 3)
+    @NotEmpty
     private String password;
 
-    private boolean active;
-
-    @ManyToMany(fetch = FetchType.LAZY)
+    @Column
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
+            joinColumns = @JoinColumn(name="users_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    private boolean active;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
 //    @JoinColumn(name = "account_holder_id")
 //    @JsonIgnore
     AccountHolder accountHolder;
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }
