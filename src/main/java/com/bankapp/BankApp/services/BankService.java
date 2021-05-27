@@ -44,6 +44,23 @@ public class BankService {
         // add new user and will need to be able to select role assignment
         User user = new User(registerRequest.getUsername(), registerRequest.getPassword());
 
+        if(rolesString == null) {
+            Role userRole = roleRepository.findByName(RoleName.AccountHolder).orElseThrow(() -> new RuntimeException("ERROR: Role of AccountHolder not found."));
+            roles.add(userRole);
+        } else {
+            rolesString.forEach(role -> {
+                switch(role) {
+                    case "admin":
+                        Role adminRole = roleRepository.findByName(RoleName.admin).orElseThrow(() -> new RuntimeException("ERROR: Role of admin not found"));
+                        roles.add(adminRole);
+                        break;
+                    case "AccountHolder":
+                        Role accountHolderRole = roleRepository.findByName(RoleName.AccountHolder).orElseThrow(() -> new RuntimeException("ERROR: Role of AccountHolder not found"));
+                        roles.add(accountHolderRole);
+                }
+            });
+        }
+
         user.setActive(registerRequest.isActive());
         user.setRoles(roles);
         userRepository.save(user);

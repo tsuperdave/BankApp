@@ -65,7 +65,7 @@ public class BankController {
      * @throws Exception is throw if user/pass is not correct
      */
     @PostMapping(value = "/authenticate")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -79,7 +79,8 @@ public class BankController {
     }
 
     @PreAuthorize("hasAuthority('admin')")
-    @PostMapping(value = "/admin/createUser")
+    @PostMapping(value = "/admin/registerUser")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
         return bankService.registerUser(registerRequest);
     }
