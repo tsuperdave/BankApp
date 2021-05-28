@@ -20,7 +20,7 @@ public class CDOfferingsController {
      * @param cdOffering to add
      * @return cd offering
      */
-    @PostMapping(value = "/CDOfferings")
+    @PostMapping(value = "/cdofferings")
     @ResponseStatus(HttpStatus.CREATED)
     public CDOffering addCDOffering(@RequestBody CDOffering cdOffering) {
         return cdOfferingsService.addCDOffering(cdOffering);
@@ -30,7 +30,7 @@ public class CDOfferingsController {
      *
      * @return list of cd offerings
      */
-    @GetMapping(value = "/CDOfferings")
+    @GetMapping(value = "/cdofferings")
     @ResponseStatus(HttpStatus.OK)
     public List<CDOffering> getCDOfferings() {
         return cdOfferingsService.getCDOfferings();

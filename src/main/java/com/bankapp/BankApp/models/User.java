@@ -1,16 +1,20 @@
 package com.bankapp.BankApp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "User")
 public class User {
 
@@ -19,11 +23,6 @@ public class User {
     @Column(name = "user_id")
     private Integer id;
 
-    @NotEmpty
-    private String username;
-    @NotEmpty
-    private String password;
-
     @Column
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
@@ -31,12 +30,13 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    private boolean active;
-
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-//    @JoinColumn(name = "account_holder_id")
-//    @JsonIgnore
+    @JsonIgnore
     AccountHolder accountHolder;
+
+    private String username;
+    private String password;
+    private boolean active;
 
     public User(String username, String password) {
         this.username = username;

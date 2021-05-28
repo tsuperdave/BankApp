@@ -1,5 +1,6 @@
 package com.bankapp.BankApp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -38,9 +39,9 @@ public class AccountHolder {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CDAccount> cdAccountList = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     @JoinColumn(name = "account_holder_contact_details_id")
-    AccountHolderContactDetails accountHolderContactDetails;
+    private AccountHolderContactDetails accountHolderContactDetails;
 
     @OneToOne
     @JoinColumn(name = "user_id")

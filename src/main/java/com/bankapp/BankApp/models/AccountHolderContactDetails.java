@@ -14,7 +14,7 @@ public class AccountHolderContactDetails {
     @Column(name = "account_holder_contact_details_id")
     Integer id;
 
-    Integer phoneNumber;
+    String phoneNumber;
     String email;
     String address;
 

@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
-public class BankController {
+@RequestMapping("/api/auth")
+public class AuthController {
 
     @Autowired
     private UserService userService;
@@ -33,31 +33,7 @@ public class BankController {
     @Autowired
     private JwtUtil jwtTokenUtil;
 
-    // START
-    @GetMapping(value = "/")
-    public String start() {
-        return "Welcome to the jungle";
-    }
-
-    @PreAuthorize("hasAuthority('AccountHolder')")
-    @GetMapping(value = "/user")
-    public String user() {
-        return ("Welcome Account Holder");
-    }
-
-    @PreAuthorize("hasAuthority('admin')")
-    @GetMapping(value = "/admin")
-    public String admin() {
-        return ("Welcome Admin");
-    }
-
-    @PreAuthorize("hasAuthority('admin')")
-    @GetMapping(value="/adminTest")
-    public String adminTest() {
-        return ("Secured Admin Test Working");
-    }
-
-    @PostMapping(value = "/authenticate")
+    @PostMapping(value = "/signin")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
@@ -71,9 +47,9 @@ public class BankController {
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
-    @PreAuthorize("hasAuthority('admin')")
-    @PostMapping(value = "/authenticate/registerUser")
+    @PostMapping(value = "/registerUser")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('admin')")
     public User registerUser(@RequestBody User user) {
         return userService.registerUser(user);
     }

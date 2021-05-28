@@ -14,7 +14,7 @@ public class SavingsAccount extends BankAccount{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     public SavingsAccount(double balance) {
         super(balance);

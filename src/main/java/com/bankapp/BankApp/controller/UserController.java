@@ -23,7 +23,7 @@ public class UserController {
     @Autowired
     private AccountsService accountsService;
 
-    @GetMapping("/Me")
+    @GetMapping("/me")
     @PreAuthorize("hasAuthority('AccountHolder')")
     public AccountHolder getAccountHolderById() {
         String username = jwtUtil.getCurrentUserName();
@@ -31,9 +31,9 @@ public class UserController {
         return user.getAccountHolder();
     }
 
-    @PostMapping("/Me/checkingaccounts")
-    @PreAuthorize("hasAuthority('AccountHolder')")
+    @PostMapping("/me/checkingaccounts")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('AccountHolder')")
     public CheckingAccount addCheckingAccount(@RequestBody CheckingAccount checkingAccount)
             throws NoResourceFoundException, NegativeAmountException, ExceedsCombinedBalanceLimitException,
             AccountNotFoundException, InvalidArgumentException {
@@ -53,7 +53,7 @@ public class UserController {
         return accountsService.addCheckingAccount(accountHolder.getId(), checkingAccount);
     }
 
-    @GetMapping("/Me/checkingaccounts")
+    @GetMapping("/me/checkingaccounts")
     @PreAuthorize("hasAuthority('AccountHolder')")
     public List<CheckingAccount> getCheckingAccount() {
         String username = jwtUtil.getCurrentUserName();
@@ -61,9 +61,9 @@ public class UserController {
         return user.getAccountHolder().getCheckingAccountList();
     }
 
-    @PostMapping("/Me/savingsaccounts")
-    @PreAuthorize("hasAuthority('AccountHolder')")
+    @PostMapping("/me/savingsaccounts")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('AccountHolder')")
     public SavingsAccount addSavingsAccount(@RequestBody SavingsAccount savingsAccount)
             throws NoResourceFoundException, NegativeAmountException, ExceedsCombinedBalanceLimitException,
             AccountNotFoundException, InvalidArgumentException {
@@ -91,8 +91,8 @@ public class UserController {
     }
 
     @PostMapping("/Me/cdaccounts")
-    @PreAuthorize("hasAuthority('AccountHolder')")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('AccountHolder')")
     public CDAccount addCDAccount(@RequestBody CDAccount cdAccount)
             throws NoResourceFoundException, NegativeAmountException, AccountNotFoundException,
             ExceedsCombinedBalanceLimitException, InvalidArgumentException {
