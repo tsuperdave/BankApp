@@ -1,14 +1,17 @@
 package com.bankapp.BankApp.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 import java.util.*;
 
 @Data
-@Entity(name = "AccountHolder")
-@Table(name = "AccountHolder")
+@Entity
+@NoArgsConstructor
 public class AccountHolder {
 
     @Id
@@ -16,26 +19,41 @@ public class AccountHolder {
     @Column(name = "account_holder_id")
     Integer id;
 
-    @NotEmpty
+    @NotBlank(message = "First Name cannot be blank")
+    @NotNull(message = "First name cannot be blank")
     String firstName;
     String middleName;
-    @NotEmpty
+    @NotBlank(message = "First Name cannot be blank")
+    @NotNull(message = "First name cannot be blank")
     String lastName;
-    @NotEmpty
+    @NotBlank(message = "First Name cannot be blank")
+    @NotNull(message = "First name cannot be blank")
+    @Length(min = 9, max = 9)
     String ssn;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private List<CheckingAccount> checkingAccountList;
+    private List<CheckingAccount> checkingAccountList = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private List<SavingsAccount> savingsAccountsList;
+    private List<SavingsAccount> savingsAccountsList = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private List<CDAccount> cdAccountList;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_holders_contact_details_id", referencedColumnName = "account_holders_contact_details_id")
+    private List<CDAccount> cdAccountList = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "account_holder_contact_details_id")
     AccountHolderContactDetails accountHolderContactDetails;
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    private double combinedBal;
+
+    public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.ssn = ssn;
+    }
 
     public double getNumberOfCheckingAccounts() {
         if(checkingAccountList != null) {
@@ -92,7 +110,13 @@ public class AccountHolder {
     }
 
     public double getCombinedAccountBalance() {
-        return getCheckingBalance() + getSavingsBalance() + getCDBalance();
+        combinedBal = getCheckingBalance() + getSavingsBalance() + getCDBalance();
+        return combinedBal;
+    }
+
+    @Override
+    public String toString() {
+        return lastName + "," + middleName + "," + firstName + "," + ssn;
     }
 
 }

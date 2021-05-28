@@ -1,4 +1,4 @@
-package com.bankapp.BankApp.models;
+package com.bankapp.BankApp.security.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

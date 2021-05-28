@@ -19,12 +19,6 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
-    /**
-     *
-     * @param username is for locating user in repository
-     * @return instance of user Obj
-     * @throws UsernameNotFoundException if user is not found
-     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //        return new User("foo", "foo", new ArrayList<>());

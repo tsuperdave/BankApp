@@ -1,8 +1,7 @@
-package com.bankapp.BankApp.filters;
+package com.bankapp.BankApp.security.filters;
 
-import com.bankapp.BankApp.models.User;
+import com.bankapp.BankApp.security.util.JwtUtil;
 import com.bankapp.BankApp.services.MyUserDetailsService;
-import com.bankapp.BankApp.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

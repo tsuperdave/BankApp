@@ -1,12 +1,12 @@
 package com.bankapp.BankApp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Data
-@Entity(name = "AccountHolderContactDetails")
-@Table(name = "AccountHolderContactDetails")
+@Entity
 public class AccountHolderContactDetails {
 
     @Id
@@ -15,5 +15,12 @@ public class AccountHolderContactDetails {
     Integer id;
 
     Integer phoneNumber;
+    String email;
+    String address;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
+    @JsonIgnore
+    private AccountHolder accountHolder;
 
 }
