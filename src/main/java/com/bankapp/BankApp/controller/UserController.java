@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/me")
 public class UserController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class UserController {
     @Autowired
     private AccountsService accountsService;
 
-    @GetMapping("/me")
+    @GetMapping("/")
     @PreAuthorize("hasAuthority('AccountHolder')")
     public AccountHolder getAccountHolderById() {
         String username = jwtUtil.getCurrentUserName();
@@ -31,7 +31,7 @@ public class UserController {
         return user.getAccountHolder();
     }
 
-    @PostMapping("/me/checkingaccounts")
+    @PostMapping("/checkingaccounts")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('AccountHolder')")
     public CheckingAccount addCheckingAccount(@RequestBody CheckingAccount checkingAccount)
@@ -53,7 +53,7 @@ public class UserController {
         return accountsService.addCheckingAccount(accountHolder.getId(), checkingAccount);
     }
 
-    @GetMapping("/me/checkingaccounts")
+    @GetMapping("/checkingaccounts")
     @PreAuthorize("hasAuthority('AccountHolder')")
     public List<CheckingAccount> getCheckingAccount() {
         String username = jwtUtil.getCurrentUserName();
@@ -61,7 +61,7 @@ public class UserController {
         return user.getAccountHolder().getCheckingAccountList();
     }
 
-    @PostMapping("/me/savingsaccounts")
+    @PostMapping("/savingsaccounts")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('AccountHolder')")
     public SavingsAccount addSavingsAccount(@RequestBody SavingsAccount savingsAccount)
@@ -82,7 +82,7 @@ public class UserController {
         return accountsService.addSavingsAccount(accHolder.getId(), savingsAccount);
     }
 
-    @GetMapping("/Me/savingsaccounts")
+    @GetMapping("/savingsaccounts")
     @PreAuthorize("hasAuthority('AccountHolder')")
     public List<SavingsAccount> getSavingsAccount() {
         String username = jwtUtil.getCurrentUserName();
@@ -90,7 +90,7 @@ public class UserController {
         return user.getAccountHolder().getSavingsAccountsList();
     }
 
-    @PostMapping("/Me/cdaccounts")
+    @PostMapping("/cdaccounts")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('AccountHolder')")
     public CDAccount addCDAccount(@RequestBody CDAccount cdAccount)
@@ -109,7 +109,7 @@ public class UserController {
         return accountsService.addCDAccount(accHolder.getId(), cdAccount);
     }
 
-    @GetMapping("/Me/cdaccounts")
+    @GetMapping("/cdaccounts")
     @PreAuthorize("hasAuthority('AccountHolder')")
     public List<CDAccount> getCDAccount() {
         String username = jwtUtil.getCurrentUserName();

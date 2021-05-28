@@ -4,33 +4,26 @@ import com.bankapp.BankApp.models.CDOffering;
 import com.bankapp.BankApp.services.CDOfferingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/cdofferings")
 public class CDOfferingsController {
 
     @Autowired
     CDOfferingsService cdOfferingsService;
 
-    /**
-     *
-     * @param cdOffering to add
-     * @return cd offering
-     */
-    @PostMapping(value = "/cdofferings")
+    @PostMapping(value = "/")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('admin')")
     public CDOffering addCDOffering(@RequestBody CDOffering cdOffering) {
         return cdOfferingsService.addCDOffering(cdOffering);
     }
 
-    /**
-     *
-     * @return list of cd offerings
-     */
-    @GetMapping(value = "/cdofferings")
+    @GetMapping(value = "/")
     @ResponseStatus(HttpStatus.OK)
     public List<CDOffering> getCDOfferings() {
         return cdOfferingsService.getCDOfferings();

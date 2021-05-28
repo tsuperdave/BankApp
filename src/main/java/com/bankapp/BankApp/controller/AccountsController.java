@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/accountholders/{id}")
 public class AccountsController {
 
     @Autowired
@@ -25,14 +25,14 @@ public class AccountsController {
     AccountHolderService accountHolderService;
 
     // CHECKING ACCOUNTS
-    @PostMapping(value = "/accountholders/{id}/checkingaccounts")
+    @PostMapping(value = "/checkingaccounts")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
     public CheckingAccount addCheckingAccount(@RequestBody CheckingAccount checkingAccount, @PathVariable Integer id) throws AccountNotFoundException, ExceedsCombinedBalanceLimitException, InvalidArgumentException {
         return accountsService.addCheckingAccount(id, checkingAccount);
     }
 
-    @GetMapping(value = "/accountholders/{id}/checkingaccounts")
+    @GetMapping(value = "checkingaccounts")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('admin')")
     public List<CheckingAccount> getCheckingAccounts(@PathVariable Integer id) throws InvalidArgumentException {
@@ -40,14 +40,14 @@ public class AccountsController {
     }
 
     // SAVINGS ACCOUNTS
-    @PostMapping(value = "/accountholders/{id}/savingsaccounts")
+    @PostMapping(value = "/savingsaccounts")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
     public SavingsAccount addSavingsAccount(@RequestBody SavingsAccount savingsAccount, @PathVariable Integer id) throws AccountNotFoundException, ExceedsCombinedBalanceLimitException, InvalidArgumentException {
         return accountsService.addSavingsAccount(id, savingsAccount);
     }
 
-    @GetMapping(value = "/accountholders/{id}/savingsaccounts")
+    @GetMapping(value = "/savingsaccounts")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('admin')")
     public List<SavingsAccount> getSavingsAccounts(@PathVariable Integer id) throws AccountNotFoundException {
@@ -55,14 +55,14 @@ public class AccountsController {
     }
 
     // CD ACCOUNTS
-    @PostMapping(value = "/accountholders/{id}/cdaccounts")
+    @PostMapping(value = "/cdaccounts")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
     public CDAccount addCDAccount(@RequestBody CDAccount cdAccount, @PathVariable Integer id) throws AccountNotFoundException, ExceedsCombinedBalanceLimitException, InvalidArgumentException {
         return accountsService.addCDAccount(id, cdAccount);
     }
 
-    @GetMapping(value = "/accountholders/{id}/cdaccounts")
+    @GetMapping(value = "/cdaccounts")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('admin')")
     public List<CDAccount> getCDAccountsById(@PathVariable Integer id) throws AccountNotFoundException {
