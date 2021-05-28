@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @EnableWebSecurity
@@ -43,13 +45,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/authenticate").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/api/authenticate/registerUser").hasRole("admin")
+                .antMatchers("/api/authenticate").permitAll()
+                .antMatchers("/api/Me/**").hasRole("AccountHolder")
+                .antMatchers("/api").permitAll()
                 .anyRequest().authenticated().and()
                 .exceptionHandling().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.headers().frameOptions().disable();
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.exceptionHandling()
+                .authenticationEntryPoint((request, response, e) ->
+                {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                });
 
     }
 
