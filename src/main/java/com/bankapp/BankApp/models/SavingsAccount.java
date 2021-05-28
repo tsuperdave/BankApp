@@ -1,14 +1,23 @@
 package com.bankapp.BankApp.models;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Entity(name = "SavingsAccount")
-@Table(name = "SavingsAccount")
+@Entity
+@NoArgsConstructor
 public class SavingsAccount extends BankAccount{
 
-    double interestRate = 0.01;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    public SavingsAccount(double balance) {
+        super(balance);
+    }
 
 }
