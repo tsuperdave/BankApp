@@ -43,7 +43,7 @@ public class BankController {
     @PreAuthorize("hasAuthority('AccountHolder')")
     @GetMapping(value = "/user")
     public String user() {
-        return ("Welcome Account Holder");
+        return ("Welcome User");
     }
 
     @PreAuthorize("hasAuthority('admin')")
@@ -78,8 +78,7 @@ public class BankController {
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
-    @PreAuthorize("hasAuthority('admin')")
-    @PostMapping(value = "/admin/registerUser")
+    @PostMapping(value = "/register")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
         return bankService.registerUser(registerRequest);
@@ -93,7 +92,7 @@ public class BankController {
     @PreAuthorize("hasAuthority('admin')")
     @PostMapping(value = "/AccountHolders")
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountHolder addAccountHolder(@RequestBody AccountHolder accountHolder) {
+    public AccountHolder addAccountHolder(@RequestBody AccountHolder accountHolder) throws AccountNotFoundException {
         return bankService.addAccountHolder(accountHolder);
     }
 

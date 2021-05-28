@@ -30,8 +30,8 @@ public class AccountHolder {
     private List<SavingsAccount> savingsAccountsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CDAccount> cdAccountList;
-    @OneToOne
-    @JoinColumn(name = "account_holder_contact_details_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_holders_contact_details_id", referencedColumnName = "account_holders_contact_details_id")
     AccountHolderContactDetails accountHolderContactDetails;
     @OneToOne
     @JoinColumn(name = "user_id")

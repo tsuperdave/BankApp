@@ -68,7 +68,8 @@ public class BankService {
         return ResponseEntity.ok("Registration Complete!");
     }
 
-    public AccountHolder addAccountHolder(AccountHolder accountHolder) {
+    public AccountHolder addAccountHolder(AccountHolder accountHolder) throws AccountNotFoundException {
+        accountHolder.setUser(userRepository.findById(accountHolder.getUser().getId()).orElseThrow(() -> new AccountNotFoundException("User not found!")));
         return accountHolderRepository.save(accountHolder);
     }
 
