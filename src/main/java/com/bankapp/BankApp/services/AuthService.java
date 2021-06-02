@@ -7,11 +7,10 @@ import com.bankapp.BankApp.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 
 @Service
 public class AuthService {
@@ -22,37 +21,23 @@ public class AuthService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public ResponseEntity<?> registerUser(RegisterRequest registerRequest) {
         //TODO may need to add exceptions if roles are not found
-        Set<Role> roles = new HashSet<>();
-        Set<String> rolesString = registerRequest.getRole();
 
-        if(userRepository.existsByUsername(registerRequest.getUsername())) {
-            return ResponseEntity.badRequest().body("Username is taken!");
-        }
+        if(userRepository.existsByUsername(registerRequest.getUsername())) { return ResponseEntity.badRequest().body("Username is taken!"); }
+        if(userRepository.existsByEmail(registerRequest.getEmail())) { return ResponseEntity.badRequest().body("Email is taken!"); }
+
         // add new user and will need to be able to select role assignment
-        User user = new User(registerRequest.getUsername(), registerRequest.getPassword());
+        User user = new User(registerRequest.getUsername(), passwordEncoder.encode(registerRequest.getPassword()));
+        user.setEmail(registerRequest.getEmail());
 
-        if(rolesString == null) {
-            Role userRole = roleRepository.findByName(RoleName.AccountHolder).orElseThrow(() -> new RuntimeException("ERROR: Role of AccountHolder not found."));
-            roles.add(userRole);
-        } else {
-            rolesString.forEach(role -> {
-                switch(role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(RoleName.admin).orElseThrow(() -> new RuntimeException("ERROR: Role of admin not found"));
-                        roles.add(adminRole);
-                        break;
-                    case "AccountHolder":
-                        Role accountHolderRole = roleRepository.findByName(RoleName.AccountHolder).orElseThrow(() -> new RuntimeException("ERROR: Role of AccountHolder not found"));
-                        roles.add(accountHolderRole);
-                }
-            });
-        }
+        Role userRole = roleRepository.findByName(RoleName.user)
+                .orElseThrow(() -> new RuntimeException("Role not applied."));
 
-        user.setActive(registerRequest.isActive());
-        user.setRoles(roles);
+        user.setRoles(Collections.singleton(userRole));
         userRepository.save(user);
 
         return ResponseEntity.ok("Registration Complete!");

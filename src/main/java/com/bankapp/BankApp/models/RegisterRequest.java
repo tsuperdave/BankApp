@@ -16,6 +16,8 @@ public class RegisterRequest {
     @Size(min = 5)
     private String password;
 
+    private String email;
+
     private boolean active;
 
     private Set<String> role;
