@@ -9,19 +9,20 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
+@Table
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Enumerated(EnumType.STRING)
     @NaturalId
     @Column(length = 20)
-    private RoleName name;
+    private RoleName roleName;
 
-    public Role(RoleName name) {
-        this.name = name;
+    public Role(RoleName roleName) {
+        this.roleName = roleName;
     }
 
 }

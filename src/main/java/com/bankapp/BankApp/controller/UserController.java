@@ -23,6 +23,13 @@ public class UserController {
     @Autowired
     private AccountsService accountsService;
 
+    @PostMapping(value = "/registerUser")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('admin')")
+    public User registerUser(@RequestBody User user) {
+        return userService.registerUser(user);
+    }
+
     @GetMapping("/")
     @PreAuthorize("hasAuthority('AccountHolder')")
     public AccountHolder getAccountHolderById() {

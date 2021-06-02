@@ -1,10 +1,10 @@
 package com.bankapp.BankApp.controller;
 
-import com.bankapp.BankApp.models.*;
 import com.bankapp.BankApp.security.models.AuthenticationRequest;
 import com.bankapp.BankApp.security.models.AuthenticationResponse;
+import com.bankapp.BankApp.security.models.RegisterRequest;
+import com.bankapp.BankApp.services.AuthService;
 import com.bankapp.BankApp.services.MyUserDetailsService;
-import com.bankapp.BankApp.services.UserService;
 import com.bankapp.BankApp.security.util.JwtUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,13 +25,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
-    private UserService userService;
-    @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private MyUserDetailsService myUserDetailsService;
     @Autowired
     private JwtUtil jwtTokenUtil;
+    @Autowired
+    AuthService authService;
 
     @PostMapping(value = "/signin")
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -53,12 +51,18 @@ public class AuthController {
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
+//    @PostMapping(value = "/registerUser")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @PreAuthorize("hasAuthority('admin')")
+//    public User registerUser(@RequestBody User user) {
+//        return userService.registerUser(user);
+//    }
+
     @PostMapping(value = "/registerUser")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('admin')")
-    public User registerUser(@RequestBody User user) {
-        return userService.registerUser(user);
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
+        return authService.registerUser(registerRequest);
     }
-
 
 }
