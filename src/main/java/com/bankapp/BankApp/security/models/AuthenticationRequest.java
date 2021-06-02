@@ -10,6 +10,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthenticationRequest {
+
     private String usernameOrEmail;
     private String password;
+
 }
